@@ -5,8 +5,8 @@
   
         <!-- Loop through the cart items and display them in a 3x3 grid -->
         <div class="grid grid-cols-3 gap-4">
-          <div v-for="item in cartItems" :key="item.id" class="bg-gray-600 rounded-lg p-4 shadow-md">
-            <img :src="getImagePath(item.shoe.image_path)" alt="Shoe Image" class="w-full h-50 object-cover rounded-t-md" />
+          <div v-for="item in cartItems" :key="item.id" class="bg-gray-600 rounded-lg p-4 shadow-md" style="height: 400px;">
+            <img :src="getImagePath(item.shoe.image_path)" alt="Shoe Image" class="w-full h-48 object-cover rounded-t-md" />
             <div class="text-center mt-2">
               <h2 class="text-lg text-white font-semibold">{{ item.shoe.name }}</h2>
               <p class="text-sm text-white">Brand: {{ item.shoe.brand }}</p>
