@@ -99,6 +99,37 @@ class ShoeController extends Controller
         return $latestShoes;
     }
 
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        // If query is present, search by name or brand
+        if ($query) {
+            $shoes = Shoe::where('name', 'like', "%{$query}%")
+                ->orWhere('brand', 'like', "%{$query}%")
+                ->paginate(9);
+
+            // Recommendations: top viewed shoes not in search result
+            $recommendations = Shoe::where(function($q) use ($query) {
+                    $q->where('name', 'not like', "%{$query}%")
+                      ->where('brand', 'not like', "%{$query}%");
+                })
+                ->orderBy('view', 'desc')
+                ->take(3)
+                ->get();
+        } else {
+            // If no query, show all shoes and top viewed as recommendations
+            $shoes = Shoe::paginate(9);
+            $recommendations = Shoe::orderBy('view', 'desc')->take(3)->get();
+        }
+
+        return Inertia::render('Shoes/Search', [
+            'shoes' => $shoes,
+            'recommendations' => $recommendations,
+            'query' => $query,
+        ]);
+    }
+
 
 
 }

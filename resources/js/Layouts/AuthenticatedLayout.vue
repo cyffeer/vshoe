@@ -5,9 +5,17 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
 
 const showingNavigationDropdown = ref(false);
+
+// Search bar state and handler
+const searchQuery = ref('');
+const submitSearch = () => {
+    if (searchQuery.value.trim() !== '') {
+        router.get(route('shoes.search'), { query: searchQuery.value });
+    }
+};
 </script>
 
 <template>
@@ -59,6 +67,24 @@ const showingNavigationDropdown = ref(false);
                             </div>
                         </div>
 
+                        <div class="flex items-center space-x-4">
+                            <!-- Search Bar -->
+                            <form @submit.prevent="submitSearch" class="hidden sm:flex items-center w-64">
+                                <input
+                                    v-model="searchQuery"
+                                    type="text"
+                                    placeholder="Search shoes..."
+                                    class="rounded-l-md border border-gray-300 px-3 py-1.5 w-full h-9 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white"
+                                />
+                                <button
+                                    type="submit"
+                                    class="rounded-r-md border border-gray-300 bg-indigo-600 px-4 h-9 text-sm text-white font-semibold hover:bg-indigo-700 focus:outline-none"
+                                    style="margin-left: -1px;" >
+                                    
+                                    Search
+                                </button>
+                            </form>
+
                         <div class="hidden sm:ms-6 sm:flex sm:items-center">
                             <!-- Settings Dropdown -->
                             <div class="relative ms-3">
@@ -100,6 +126,7 @@ const showingNavigationDropdown = ref(false);
                                         </DropdownLink>
                                     </template>
                                 </Dropdown>
+                            </div>
                             </div>
                         </div>
 

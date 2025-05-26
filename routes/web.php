@@ -18,6 +18,8 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+    Route::get('/shoes/search', [ShoeController::class, 'search'])->name('shoes.search');
+
 // Shoe Routes for authenticated users
 Route::middleware('auth')->group(function () {
     // Show the form to post a new shoe
@@ -44,6 +46,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('shoes', ShoeController::class);
     Route::get('/api/top-shoes', [ShoeController::class, 'topShoes']);
     Route::get('/api/latest-shoes', [ShoeController::class, 'latestShoes']);
+    Route::get('/shoes/search', [ShoeController::class, 'search'])->name('shoes.search');
 });
 
 require __DIR__.'/auth.php';
